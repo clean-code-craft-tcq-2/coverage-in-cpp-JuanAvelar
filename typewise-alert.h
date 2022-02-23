@@ -21,10 +21,10 @@ typedef enum {
   TO_EMAIL
 } AlertTarget;
 
-typedef struct {
+struct BatteryCharacter{
   CoolingType coolingType;
   char brand[48];
-} BatteryCharacter;
+} ;
 
 bool checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC);
 
