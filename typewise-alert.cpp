@@ -3,10 +3,7 @@
 #include <vector>
 #include <string>
 
-struct Limits{
-  int lowerLimit = 0;
-  int upperLimit = 0;
-};
+
 struct AlertMessage{
   std::string Warning;
   std::string Description;
@@ -30,19 +27,15 @@ std::vector<AlertMessage> AlertMessages =
                                      {"Hi, the temperature is too high", "TOO_HIGH"},         //TOO_HIGH
                                      {"The breach parameters are not possible", "NOT_POSSIBLE"}}; //NOT_POSSIBLE
 
-BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
-  BreachType breach = NO_BREACH;
-  //This cannot be allowed to enter 2 separate if statements
-  if((value <= lowerLimit) | (value >= upperLimit)) {
-    breach = (value >= upperLimit) ? TOO_HIGH:TOO_LOW;
-  }
-  if(lowerLimit >= upperLimit) breach = NOT_POSSIBLE;
+BreachType inferBreach(double value, Limits Limit) {
+  BreachType breach = Limit.checkBreach(value);
+  if(Limit.check_Invalidity()) breach = NOT_POSSIBLE;
   return breach;
 }
 
 BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC) {
   Limits myCoolingLimits = CoolingLimits.at(coolingType);
-  return inferBreach(temperatureInC, myCoolingLimits.lowerLimit, myCoolingLimits.upperLimit);
+  return inferBreach(temperatureInC, myCoolingLimits);
 }
 /*Function:   checkAndAlert
 **decription: This is the highest level function, checks breach type, then alerts if necessary*/
@@ -64,3 +57,15 @@ void sendToEmail(BreachType breachType) {
       printf("%s\n", AlertMessages.at(breachType).Warning.c_str());
   }
 }
+
+bool Limits::check_Invalidity(void){
+  return lowerLimit >= upperLimit;
+};
+BreachType Limits::checkBreach(double value){
+  BreachType breach = NO_BREACH;
+  //3 possible outcomes means using 2 conditions
+  if((value <= lowerLimit) | (value >= upperLimit)) {
+    breach = (value >= upperLimit) ? TOO_HIGH:TOO_LOW;
+  }
+  return breach;
+};

@@ -4,12 +4,12 @@
 #include "typewise-alert.h"
 
 TEST_CASE("infers the breach according to limits") {
-  REQUIRE(inferBreach(12, 20, 30) == TOO_LOW);
-  REQUIRE(inferBreach(36, 20, 30) == TOO_HIGH);
-  REQUIRE(inferBreach(25, 20, 30) == NO_BREACH);
-  REQUIRE(inferBreach(12, 35, 30) == NOT_POSSIBLE);
-  REQUIRE(inferBreach(12, 20, 10) == NOT_POSSIBLE);
-  REQUIRE(inferBreach(20, 20, 20) == NOT_POSSIBLE);
+  REQUIRE(inferBreach(12, {20, 30}) == TOO_LOW);
+  REQUIRE(inferBreach(36, {20, 30}) == TOO_HIGH);
+  REQUIRE(inferBreach(25, {20, 30}) == NO_BREACH);
+  REQUIRE(inferBreach(12, {35, 30}) == NOT_POSSIBLE);
+  REQUIRE(inferBreach(12, {20, 10}) == NOT_POSSIBLE);
+  REQUIRE(inferBreach(20, {20, 20}) == NOT_POSSIBLE);
 }
 TEST_CASE("infers the breach according to cooling type") {
   REQUIRE(classifyTemperatureBreach(PASSIVE_COOLING, -1.0) == TOO_LOW);
