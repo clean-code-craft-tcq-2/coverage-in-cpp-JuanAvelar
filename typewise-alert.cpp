@@ -18,10 +18,17 @@ const std::vector<Limits> CoolingLimits =
                                      {0 , 40}, //MED_ACTIVE_COOLING
                                      {40 , 40}}; //COOLING_TYPE_TEST
 
+/*Variable: AlertFunction
+**type: Dynamic array of functions
+**description: Put here your handler for each enum of AlertTarget
+**note: All parameters of these functions need to be the same*/
 const std::vector<void (*)(BreachType)> AlertFunction =
                                                   {&sendToController, //TO_CONTROLLER
                                                    &sendToEmail};     //TO_EMAIL
-
+     /*Variable: AlertMessages
+     **type: Dynamic array of structures with 2 strings
+     **description: Put here your warning strings according to each breachtype
+     **note: This structure is defined in this file*/
 const std::vector<AlertMessage> AlertMessages =
                                     {{"No breach", "NO_BREACH"},                               //NO_BREACH
                                      {"Hi, the temperature is too low", "TOO_LOW"},          //TOO_LOW
@@ -29,14 +36,13 @@ const std::vector<AlertMessage> AlertMessages =
                                      {"ERROR: The breach parameters are not possible", "NOT_POSSIBLE"}}; //NOT_POSSIBLE
 
 BreachType inferBreach(double value, Limits Limit) {
-  BreachType breach = Limit.checkBreach(value);
-  if(Limit.check_Invalidity()) breach = NOT_POSSIBLE;
+  BreachType breach = NOT_POSSIBLE;
+  if(!Limit.check_Invalidity()) breach = Limit.checkBreach(value);
   return breach;
 }
 
 BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC) {
-  Limits myCoolingLimits;
-  myCoolingLimits = CoolingLimits[coolingType];
+  Limits myCoolingLimits = CoolingLimits[coolingType];
   BreachType breach = inferBreach(temperatureInC, myCoolingLimits);
   return breach;
 }

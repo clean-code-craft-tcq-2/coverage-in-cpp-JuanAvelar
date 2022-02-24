@@ -4,7 +4,7 @@ typedef enum {
   PASSIVE_COOLING,
   HI_ACTIVE_COOLING,
   MED_ACTIVE_COOLING,
-  COOLING_TYPE_TEST
+  COOLING_TYPE_TEST//should be not possible from wrong parameters
 } CoolingType;
 
 typedef enum {
