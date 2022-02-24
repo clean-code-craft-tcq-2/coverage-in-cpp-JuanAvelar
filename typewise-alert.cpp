@@ -26,7 +26,7 @@ const std::vector<AlertMessage> AlertMessages =
                                     {{"No breach", "NO_BREACH"},                               //NO_BREACH
                                      {"Hi, the temperature is too low", "TOO_LOW"},          //TOO_LOW
                                      {"Hi, the temperature is too high", "TOO_HIGH"},         //TOO_HIGH
-                                     {"The breach parameters are not possible", "NOT_POSSIBLE"}}; //NOT_POSSIBLE
+                                     {"ERROR: The breach parameters are not possible", "NOT_POSSIBLE"}}; //NOT_POSSIBLE
 
 BreachType inferBreach(double value, Limits Limit) {
   BreachType breach = Limit.checkBreach(value);
@@ -53,7 +53,7 @@ void sendToController(BreachType breachType) {
 
 void sendToEmail(BreachType breachType) {
   const char* recepient = "a.b@c.com";
-  if(breachType) {
+  if(breachType != NO_BREACH) {
       printf("To: %s\n", recepient);
       printf("%s\n", AlertMessages.at(breachType).Warning.c_str());
   }
