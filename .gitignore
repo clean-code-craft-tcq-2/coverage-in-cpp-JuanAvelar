@@ -4,3 +4,4 @@ testchecker
 *.gcov
 *.info
 *.html
+bin/

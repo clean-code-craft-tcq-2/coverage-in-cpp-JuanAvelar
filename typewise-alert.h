@@ -1,18 +1,27 @@
 #pragma once
-
+#include <string>
 typedef enum {
   PASSIVE_COOLING,
   HI_ACTIVE_COOLING,
-  MED_ACTIVE_COOLING
+  MED_ACTIVE_COOLING,
+  COOLING_TYPE_TEST//should be not possible from wrong parameters
 } CoolingType;
 
 typedef enum {
-  NORMAL,
+  NO_BREACH,
   TOO_LOW,
-  TOO_HIGH
+  TOO_HIGH,
+  NOT_POSSIBLE
 } BreachType;
 
-BreachType inferBreach(double value, double lowerLimit, double upperLimit);
+struct Limits{
+  int lowerLimit = 0;
+  int upperLimit = 0;
+  bool check_Invalidity(void);
+  BreachType checkBreach(double value);
+};
+
+BreachType inferBreach(double value, Limits Limit);
 BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC);
 
 typedef enum {
@@ -20,13 +29,13 @@ typedef enum {
   TO_EMAIL
 } AlertTarget;
 
-typedef struct {
+struct BatteryCharacter{
   CoolingType coolingType;
-  char brand[48];
-} BatteryCharacter;
+  std::string brand;
+} ;
 
-void checkAndAlert(
-  AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC);
+
+bool checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC);
 
 void sendToController(BreachType breachType);
 void sendToEmail(BreachType breachType);
