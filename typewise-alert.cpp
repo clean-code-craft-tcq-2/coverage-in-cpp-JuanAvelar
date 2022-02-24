@@ -36,13 +36,14 @@ const std::vector<AlertMessage> AlertMessages =
                                      {"ERROR: The breach parameters are not possible", "NOT_POSSIBLE"}}; //NOT_POSSIBLE
 
 BreachType inferBreach(double value, Limits Limit) {
-  BreachType breach = NOT_POSSIBLE;
-  if(!Limit.check_Invalidity()) breach = Limit.checkBreach(value);
+  BreachType breach = Limit.checkBreach(value);
+  if(Limit.check_Invalidity()) breach = NOT_POSSIBLE;
   return breach;
 }
 
 BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC) {
   Limits myCoolingLimits = CoolingLimits[coolingType];
+  //IMPOSSIBLE TEST_CASE where any type of cooling would give NOT_POSSIBLE if limits are correct at compiletime
   BreachType breach = inferBreach(temperatureInC, myCoolingLimits);
   return breach;
 }
