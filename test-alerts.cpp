@@ -29,6 +29,7 @@ TEST_CASE("checks temperature and alert according to configured compiled paramet
   REQUIRE(checkAndAlert(TO_CONTROLLER, battery, 30 ) == false);
   REQUIRE(checkAndAlert(TO_CONTROLLER, battery, 100 ) == true);
   REQUIRE(checkAndAlert(TO_CONTROLLER, battery, -1 ) == true);
+  REQUIRE(checkAndAlert(TO_EMAIL, battery, 30 ) == false);
   REQUIRE(checkAndAlert(TO_EMAIL, battery, 100 ) == true);
   REQUIRE(checkAndAlert(TO_EMAIL, battery, -1 ) == true);
   REQUIRE(checkAndAlert(TO_EMAIL, battery_broken_parameters, -1 ) == true);
