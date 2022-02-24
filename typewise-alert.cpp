@@ -1,7 +1,7 @@
 #include "typewise-alert.h"
 #include <stdio.h>
 #include <vector>
-#include <string>
+
 
 
 struct AlertMessage{
@@ -12,16 +12,17 @@ struct AlertMessage{
 **type: Dynamic array of structures
 **description: Put here the lower and upper limits of your cooling systems
 **note: lower cannot be greater than upper*/
-std::vector<Limits> CoolingLimits =
+const std::vector<Limits> CoolingLimits =
                                     {{0 , 35},  //PASSIVE_COOLING
                                      {0 , 45},  //HI_ACTIVE_COOLING
-                                     {0 , 40}}; //MED_ACTIVE_COOLING
+                                     {0 , 40}, //MED_ACTIVE_COOLING
+                                     {40 , 40}}; //COOLING_TYPE_TEST
 
-std::vector<void (*)(BreachType)> AlertFunction =
+const std::vector<void (*)(BreachType)> AlertFunction =
                                                   {&sendToController, //TO_CONTROLLER
                                                    &sendToEmail};     //TO_EMAIL
 
-std::vector<AlertMessage> AlertMessages =
+const std::vector<AlertMessage> AlertMessages =
                                     {{"No breach", "NO_BREACH"},                               //NO_BREACH
                                      {"Hi, the temperature is too low", "TOO_LOW"},          //TOO_LOW
                                      {"Hi, the temperature is too high", "TOO_HIGH"},         //TOO_HIGH

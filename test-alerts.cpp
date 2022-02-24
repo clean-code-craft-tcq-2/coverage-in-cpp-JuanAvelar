@@ -21,6 +21,7 @@ TEST_CASE("infers the breach according to cooling type") {
   REQUIRE(classifyTemperatureBreach(MED_ACTIVE_COOLING, -1.0) == TOO_LOW);
   REQUIRE(classifyTemperatureBreach(MED_ACTIVE_COOLING,  1.0) == NO_BREACH);
   REQUIRE(classifyTemperatureBreach(MED_ACTIVE_COOLING, 41) == TOO_HIGH);
+  REQUIRE(classifyTemperatureBreach(COOLING_TYPE_TEST, 21) == NOT_POSSIBLE);
 }
 TEST_CASE("checks temperature and alert according to configured parameter"){
   BatteryCharacter battery = {PASSIVE_COOLING, ""};

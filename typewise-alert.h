@@ -1,9 +1,10 @@
 #pragma once
-
+#include <string>
 typedef enum {
   PASSIVE_COOLING,
   HI_ACTIVE_COOLING,
-  MED_ACTIVE_COOLING
+  MED_ACTIVE_COOLING,
+  COOLING_TYPE_TEST
 } CoolingType;
 
 typedef enum {
@@ -30,7 +31,7 @@ typedef enum {
 
 struct BatteryCharacter{
   CoolingType coolingType;
-  char brand[48];
+  std::string brand;
 } ;
 
 
