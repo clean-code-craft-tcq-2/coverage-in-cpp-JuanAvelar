@@ -35,8 +35,10 @@ BreachType inferBreach(double value, Limits Limit) {
 }
 
 BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC) {
-  Limits myCoolingLimits = CoolingLimits.at(coolingType);
-  return inferBreach(temperatureInC, myCoolingLimits);
+  Limits myCoolingLimits;
+  myCoolingLimits = CoolingLimits.at(coolingType);
+  BreachType breach = inferBreach(temperatureInC, myCoolingLimits);
+  return breach;
 }
 /*Function:   checkAndAlert
 **decription: This is the highest level function, checks breach type, then alerts if necessary*/
